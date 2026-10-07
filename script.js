@@ -19,11 +19,12 @@ const searchInput = document.querySelector('#searchInput');
 const headerSearchInput = document.querySelector('#headerSearchInput');
 const yearEl = document.querySelector('#year');
 const languageToggle = document.querySelector('#language-toggle');
+const installAppButton = document.querySelector('#install-app');
 
 const translations = {
   en: {
     pageTitle: 'Smart Shopping',
-    pageDescription: 'Browse modern essentials, trending gadgets, and home finds. Explore product details and add favorites to your cart.',
+    pageDescription: 'Tota Cart: browse modern essentials, trending gadgets, and home finds. Explore product details and add favorites to your cart.',
     brandName: 'Tota Cart',
     homeLabel: 'TotaCart home',
     mainNavigation: 'Main navigation',
@@ -99,11 +100,12 @@ const translations = {
     noMatches: 'No products match your search.',
     loadError: 'Failed to load products. Please make sure the server is running (node server.js).',
     languageButton: 'العربية',
-    languageLabel: 'Switch language'
+    languageLabel: 'Switch language',
+    installApp: 'Install app'
   },
   ar: {
     pageTitle: 'تسوق بذكاء',
-    pageDescription: 'تصفح المستلزمات العصرية والأجهزة الرائجة والمنتجات المنزلية. اطلع على تفاصيل المنتجات وأضف ما يعجبك إلى سلتك.',
+    pageDescription: 'توتا كارت: تصفح المستلزمات العصرية والأجهزة الرائجة والمنتجات المنزلية. اطلع على تفاصيل المنتجات وأضف ما يعجبك إلى سلتك.',
     brandName: 'توتا كارت',
     homeLabel: 'الصفحة الرئيسية لتوتا كارت',
     mainNavigation: 'القائمة الرئيسية',
@@ -179,7 +181,8 @@ const translations = {
     noMatches: 'لا توجد منتجات تطابق بحثك.',
     loadError: 'تعذر تحميل المنتجات. تأكد من تشغيل الخادم باستخدام node server.js.',
     languageButton: 'English',
-    languageLabel: 'تغيير اللغة'
+    languageLabel: 'تغيير اللغة',
+    installApp: 'تثبيت التطبيق'
   }
 };
 
@@ -187,6 +190,7 @@ const cart = new Map();
 let allProducts = [];
 let selectedProduct = null;
 let productDetailTrigger = null;
+let deferredInstallPrompt = null;
 let currentLanguage = localStorage.getItem('storeLanguage') === 'ar' ? 'ar' : 'en';
 
 function translatePage() {
@@ -501,6 +505,28 @@ languageToggle.addEventListener('click', () => {
   translatePage();
 });
 
+if (installAppButton) {
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    installAppButton.hidden = false;
+  });
+
+  installAppButton.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) return;
+
+    await deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    installAppButton.hidden = true;
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    installAppButton.hidden = true;
+  });
+}
+
 function applyFilters() {
   const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
@@ -517,4 +543,9 @@ translatePage();
 loadProducts();
 if (['localhost', '127.0.0.1'].includes(window.location.hostname)) {
   setInterval(loadProducts, 5000);
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register(new URL('service-worker.js', document.baseURI))
+    .catch(error => console.error('Unable to register the app service worker:', error));
 }
