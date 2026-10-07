@@ -78,6 +78,22 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  if (url.pathname === new URL('./products.json', self.registration.scope).pathname) {
+    event.respondWith(
+      fetch(request, { cache: 'no-cache' })
+        .then(response => {
+          if (!response.ok) throw new Error(`Product catalog returned ${response.status}`);
+          return cacheResponse(request, response);
+        })
+        .catch(async () => {
+          const cachedProducts = await caches.match(request);
+          if (cachedProducts) return cachedProducts;
+          return Response.error();
+        })
+    );
+    return;
+  }
+
   if (url.pathname.startsWith(new URL('./products/', self.registration.scope).pathname)) {
     event.respondWith(
       caches.match(request)
