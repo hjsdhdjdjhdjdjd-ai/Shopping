@@ -13,7 +13,11 @@ if (yearEl) {
 // Fetch products automatically from the server API
 async function loadProducts() {
   try {
-    const response = await fetch('/api/products');
+    const isLocalServer = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    const productsUrl = isLocalServer
+      ? '/api/products'
+      : new URL('products.json', document.baseURI);
+    const response = await fetch(productsUrl);
     if (!response.ok) throw new Error(`Product request failed with status ${response.status}`);
 
     allProducts = await response.json();
@@ -110,4 +114,6 @@ function applyFilters() {
 
 // Initialize the page
 loadProducts();
-setInterval(loadProducts, 5000);
+if (['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+  setInterval(loadProducts, 5000);
+}
