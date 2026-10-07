@@ -30,6 +30,10 @@ body {
   line-height: 1.6;
 }
 
+html[lang="ar"] body {
+  font-family: Tahoma, "Segoe UI", sans-serif;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -131,6 +135,17 @@ button, input {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.language-toggle {
+  min-height: 2.75rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .icon-button {
@@ -377,7 +392,7 @@ button, input {
 }
 
 #searchInput {
-  margin-left: auto;
+  margin-inline-start: auto;
   width: min(100%, 260px);
   background: white;
   border: 1px solid var(--border);
@@ -496,6 +511,7 @@ button, input {
 .price {
   font-size: 1.2rem;
   font-weight: 800;
+  unicode-bidi: plaintext;
 }
 
 .old-price {
@@ -789,6 +805,10 @@ button, input {
 @media (max-width: 640px) {
   .hero {
     padding-top: 3rem;
+  }
+
+  html[dir="rtl"] .main-product {
+    inset-inline: 1rem 0;
   }
 
   .hero-actions,
