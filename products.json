@@ -7,5 +7,14 @@
     "images": [
       "products/%E2%80%8F%E2%80%8Fproduct%201/media/Capture001.png"
     ]
+  },
+  {
+    "id": "‏‏‏‏product 2",
+    "name": "ساعة ذكية",
+    "price": "100",
+    "description": "تعمل على جميع الانظمة",
+    "images": [
+      "products/%E2%80%8F%E2%80%8F%E2%80%8F%E2%80%8Fproduct%202/media/Capture001.png"
+    ]
   }
 ]
