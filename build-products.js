@@ -59,11 +59,26 @@ function readProducts() {
   });
 }
 
-try {
+function generateProducts() {
   const products = readProducts();
-  fs.writeFileSync(outputPath, `${JSON.stringify(products, null, 2)}\n`);
-  console.log(`Generated products.json with ${products.length} product(s).`);
-} catch (error) {
-  console.error('Unable to generate products.json:', error);
-  process.exitCode = 1;
+  const content = `${JSON.stringify(products, null, 2)}\n`;
+
+  if (!fs.existsSync(outputPath) || fs.readFileSync(outputPath, 'utf8') !== content) {
+    fs.writeFileSync(outputPath, content);
+    console.log(`Updated products.json with ${products.length} product(s).`);
+  }
+
+  return products;
+}
+
+module.exports = { generateProducts };
+
+if (require.main === module) {
+  try {
+    const products = generateProducts();
+    console.log(`Generated products.json with ${products.length} product(s).`);
+  } catch (error) {
+    console.error('Unable to generate products.json:', error);
+    process.exitCode = 1;
+  }
 }
