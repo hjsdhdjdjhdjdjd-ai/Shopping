@@ -7,41 +7,5 @@
     "images": [
       "products/product/media/Capture001.png"
     ]
-  },
-  {
-    "id": "product2",
-    "name": "ساعة ذكية",
-    "price": "100",
-    "description": "تعمل على جميع الانظمة",
-    "images": [
-      "products/product2/media/Capture001.png"
-    ]
-  },
-  {
-    "id": "‏‏product3",
-    "name": "ساعة ذكية",
-    "price": "100",
-    "description": "تعمل على جميع الانظمة",
-    "images": [
-      "products/%E2%80%8F%E2%80%8Fproduct3/media/Capture001.png"
-    ]
-  },
-  {
-    "id": "‏‏‏‏product4",
-    "name": "ساعة ذكية",
-    "price": "100",
-    "description": "تعمل على جميع الانظمة",
-    "images": [
-      "products/%E2%80%8F%E2%80%8F%E2%80%8F%E2%80%8Fproduct4/media/Capture001.png"
-    ]
-  },
-  {
-    "id": "‏‏‏‏‏‏product5",
-    "name": "ساعة ذكية",
-    "price": "100",
-    "description": "تعمل على جميع الانظمة",
-    "images": [
-      "products/%E2%80%8F%E2%80%8F%E2%80%8F%E2%80%8F%E2%80%8F%E2%80%8Fproduct5/media/Capture001.png"
-    ]
   }
 ]
